@@ -24,14 +24,14 @@ void loop()
 {
   delay(2);
   pot = analogRead(POTENTPIN);
-  stateButton = digitalRead(BUTTONPIN);
+  buttonState = digitalRead(BUTTONPIN);
   pot = map(pot, 0, 1023, pMin, pMax);
   lights[i] = pot;
   pixels.setPixelColor(0, pixels.Color(lights[0], lights[1], lights[2]));
   pixels.show();
 
   if (buttonState != lastButtonState) {
-    if (i != 2 && stateButton == HIGH) {
+    if (i != 2 && buttonState == HIGH) {
       i = i + 1;
       Serial.println(i);
       delay(50);
