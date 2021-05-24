@@ -23,24 +23,21 @@ void setup()
 void loop()
 {
   delay(2);
-  pot = analogRead(POTENTPIN);
-  buttonState = digitalRead(BUTTONPIN);
-  pot = map(pot, 0, 1023, pMin, pMax);
+  pot = map(analogRead(POTENTPIN), 0, 1023, pMin, pMax);
   lights[i] = pot;
   pixels.setPixelColor(0, pixels.Color(lights[0], lights[1], lights[2]));
   pixels.show();
-
-  if (buttonState != lastButtonState) {
-    if (i != 2 && buttonState == HIGH) {
-      i = i + 1;
-      Serial.println(i);
-      delay(50);
+  
+  if(digitalRead(BUTTONPIN)==HIGH)
+  {
+    delay(10);  //10ms wait for swtich debounce
+    i++; //increment RGB position
+    Serial.println(i); //debug print
+    
+    if(i==3)  //reset RGB position
+    {
+      i=0;
     }
-    else if (buttonState == HIGH && i == 2) {
-      i = 0;
-      Serial.println(i);
-      delay(500);
-    }
+    while(digitalRead(BUTTONPIN)==HIGH);  //stay in whilst button held
   }
-  lastButtonState = buttonState;
 }
